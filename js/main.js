@@ -1,5 +1,8 @@
 var map = (function(){
 
+	var marker = new Array();
+	var statesId = new Array();
+
 	return {
 		init: function() {
 			var map = L.map('map', {
@@ -49,9 +52,37 @@ var map = (function(){
 				layer.on({
 					mouseover: highlightFeature,
 					mouseout: resetHighlight,
-					// click: function(e) {
-					// 	console.log(e.latlng)
-					// } 
+					click: function() {
+						// console.log(marker[1].myFirstNumber);
+						// console.log(this._leaflet_id);
+						// console.log(this);
+						// console.log(marker[3]);
+						// console.log(marker[4]);
+						// console.log(marker[5]);
+						// console.log(marker[6]);
+						// console.log(marker[7]);
+						// console.log(marker[8]);
+						// console.log(marker[9]);
+						// console.log(marker[10]);
+				
+						// map.removeLayer(marker[4]);
+						var i = 0;
+						for (i = 1; i <= 10; i++) {
+							if ( marker[i] != undefined) {
+								var a = Number(marker[i].myFirstNumber),
+									b = this._leaflet_id;
+								if (a === b) {
+									map.removeLayer(marker[i]);
+									break;
+								}
+							}
+						}
+
+						console.log(i);
+
+						
+					}
+
 				});
 			}
 
@@ -70,8 +101,18 @@ var map = (function(){
 				return [coordinates[0], coordinates[1]];
 			}
 
-			function getIndex (array) {
-				return array[2];
+			function getIndex (state) {
+				var
+					span = state.find('span'),
+					coordinates = span.text().split(', ')
+				return coordinates[3];
+			}
+
+			function getLeafletId (state) {
+				var
+					span = state.find('span'),
+					coordinates = span.text().split(', ')
+				return coordinates[2];
 			}
 
 			function getText (li) {
@@ -80,39 +121,50 @@ var map = (function(){
 
 			var allStates = $('.all-states'),
 				state = allStates.find('li'),
-				counter = false;
+				counter = true;
+
+				
 
 				state.on('click', function(e) {
 					e.stopPropagation();
 					var $this = $(this);
-						var marker;
 
-						marker = new L.marker(getCoordinates($this));
+						var newMarker = new L.marker(getCoordinates($this));
+						marker[getIndex($this)] = newMarker;
 
-						marker.addTo(map)
-						.bindPopup(getText($this));
+						map.addLayer(marker[getIndex($this)]);
+						marker[getIndex($this)].bindPopup(getText($this));
+
+						statesId[getIndex($this)] = getLeafletId($this);
+
+						marker[getIndex($this)].myFirstNumber = getLeafletId($this);
+						marker[getIndex($this)].mySecondNumber = getIndex($this);
+						console.log(marker[getIndex($this)].myFirstNumber);
+						console.log(marker[getIndex($this)].mySecondNumber);
 
 						// if (counter) {
+						// 	counter = !counter;
 						// 	map.removeLayer(marker);
+						// 	return false
 						// }
 
-						// counter = !counter;
+						// console.log(statesId);
+						// console.log(marker);
 				});
 
-				allStates.on('click', function(e) {
-					var $this = $(this),
-					states = $this.find('li');
+				// $('.text-title').on('click', function(e) {
+				// 	var $this = $(this),
+				// 	states = $this.closest('.all-states').find('li');
 
-					states.each(function() {
-						var marker;
+				// 	states.each(function() {
 
-						marker = new L.marker(getCoordinates($(this)));
+				// 		marker = new L.marker(getCoordinates($(this)));
 
-						marker.addTo(map)
-						.bindPopup(getText($(this)));
-					});
-			
-			});
+				// 		map.addLayer(marker);
+				// 		marker.bindPopup(getText($(this)));
+				// 	});
+
+				// });
 
 		}
 	}

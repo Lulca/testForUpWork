@@ -1,0 +1,51 @@
+body {
+  background-color: #f0f0f0;
+}
+
+ul {
+  list-style: none;
+}
+
+#map {
+  height: 700px;
+  position: relative;
+  z-index: 0;
+}
+
+#map .states, #map .selected-states {
+  width: 150px;
+  cursor: pointer;
+  background-color: #FFF;
+  padding: 20px;
+  margin-left: 10px;
+  border-radius: 10px;
+  position: absolute;
+  display: inline-block;
+  z-index: 1;
+  top: 70px;
+}
+
+#map .states .all-states, #map .selected-states .all-states {
+  padding: 5px;
+}
+
+#map .states .all-states b, #map .selected-states .all-states b {
+  padding: 10px;
+}
+
+#map .states .all-states li, #map .selected-states .all-states li {
+  padding: 5px;
+}
+
+#map .states .all-states .array, #map .selected-states .all-states .array {
+  display: none;
+}
+
+#map .selected-states {
+  right: 0;
+  margin-right: 10px;
+}
+
+#map .selected-states h3 {
+  margin: 0;
+}

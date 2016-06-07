@@ -1,0 +1,37 @@
+body
+	background-color: #f0f0f0
+ul
+	list-style: none
+
+#map
+	height: 700px
+	position: relative
+	z-index: 0
+	.states
+		width: 150px
+		cursor: pointer
+		background-color: #FFF
+		padding: 20px
+		margin-left: 10px
+		border-radius: 10px
+		position: absolute
+		display: inline-block
+		z-index: 1
+		top: 70px
+		.all-states
+			padding: 5px
+			b
+				padding: 10px
+			li
+				padding: 5px
+			.array
+				display: none
+
+	.selected-states
+		@extend .states
+		right: 0
+		margin-right: 10px
+		h3
+			margin: 0
+
+

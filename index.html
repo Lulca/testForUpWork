@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Test task</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="lib/leaflet/leaflet.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.css" />
+	<script type="text/javascript" src="lib/leaflet/leaflet.js"></script>
+</head>
+<body>
+	<h1>The largest states by population</h1>
+	<div id="map">
+		<ul class="states">
+			<li class="east-states all-states"><b class="title-states"><i class="fa fa-minus" aria-hidden="true"></i> East states</b>
+				<ul class="ew-states">
+					<li>California<span class="array">37, -120, 1</span></li>
+					<li>Texas<span class="array">31, -98, 2</span></li>
+					<li>Washington<span class="array">47, -120, 3</span></li>
+					<li>Arizona<span class="array">34, -111, 4</span></li>
+					<li>Oregon<span class="array">44, -120, 5</span></li>
+
+				</ul>
+			</li>
+			<li class="west-states all-states"><b class="title-states"><i class="fa fa-minus" aria-hidden="true"></i> West states</b>
+				<ul class="ew-states">
+					<li>New York<span class="array">43, -75, 1</span></li>
+					<li>Florida<span class="array">29, -82, 2</span></li>
+					<li>Pennsylvania<span class="array">41, -77, 3</span></li>
+					<li>Ohio<span class="array">40, -82, 4</span></li>
+					<li>Illinois<span class="array">40, -89, 5</span></li>
+				</ul>
+			</li>
+		</ul>
+
+		<ul class="selected-states">
+			<h3>Selected states</h3>
+			<li class="east-states all-states"><b class="title-states"><i class="fa fa-minus" aria-hidden="true"></i> East states</b>
+				<ul class="ew-states">
+	
+				</ul>
+			</li>
+			<li class="west-states all-states"><b class="title-states"><i class="fa fa-minus" aria-hidden="true"></i> West states</b>
+				<ul class="ew-states">
+
+				</ul>
+			</li>
+		</ul>
+	</div>
+	<script type="text/javascript" src="lib/jquery/jquery-1.12.4.min.js"></script>
+	<script type="text/javascript" src="http://leafletjs.com/examples/us-states.js"></script>
+	<script type="text/javascript" src="js/main.js"></script>
+
+</body>
+</html>

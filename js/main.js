@@ -1,7 +1,8 @@
 var map = (function(){
 
-	var marker = new Array();
-	var statesId = new Array();
+	var marker = new Array(),
+		statesId = new Array();
+
 
 	return {
 		init: function() {
@@ -48,25 +49,59 @@ var map = (function(){
 
 			var geojson;
 
+			var
+				secondList = $('.second-list'),
+				firstList = $('.first-list'),
+				firstListLi = $('.first-list').find('li'),
+				fa = '<i class="fa fa-times" aria-hidden="true">';
+				// console.log(firstListLi);
+			var control = true;
+
 			function onEachFeature(feature, layer) {
 				layer.on({
-					mouseover: highlightFeature,
 					mouseout: resetHighlight,
-					click: function() {
-						var i = 0;
-						for (i = 1; i <= 10; i++) {
-							if ( marker[i] != undefined) {
-								var a = Number(marker[i].myFirstNumber),
+					mouseover: function(e) {
+						highlightFeature(e);
+						if (control) {
+							var i = 0;
+							for (i = 1; i <= 10; i++) {
+								if ( marker[i] != undefined) {
+									var a = Number(marker[i].myFirstNumber),
 									b = this._leaflet_id;
-								if (a === b) {
-									map.removeLayer(marker[i]);
+									if (a === b) {
+									// map.removeLayer(marker[i]);
+									this.mySecondNumber = marker[i].mySecondNumber;
+									this.myThirdNumber = marker[i].myThirdNumber;
 									break;
 								}
 							}
-						}		
+						}
+						secondList
+						.append(firstListLi.eq(this.mySecondNumber - 1)
+							.append(fa)
+							);		
 					}
+
+				}
+
 				});
 			}
+		
+			// $(".fa-times").on("click", function() {
+			// 	alert('heloo');
+			// });
+
+			$(document).on("mouseover", ".fa-times", function() {
+				var $this = $(this),
+					lastLevelLi = $this.closest('.last-level'),
+					firstList = $('.first-list'),
+					secondListLi = firstList.find('.last-level')
+					map.removeLayer(marker[getIndex(lastLevelLi)]);
+					
+					// firstList.append(secondListLi.eq(getIndex(lastLevelLi)));
+
+
+			});
 
 			geojson = L.geoJson(statesData, {
 				style: style,
@@ -75,31 +110,38 @@ var map = (function(){
 
 			function getCoordinates (state) {
 				var
-					span = state.find('span'),
-					coordinates = span.text().split(', ')
+					array = state.find('.array'),
+					coordinates = array.text().split(', ');
 
 				return [coordinates[0], coordinates[1]];
 			}
 
 			function getIndex (state) {
 				var
-					span = state.find('span'),
-					coordinates = span.text().split(', ')
+					array = state.find('.array'),
+					coordinates = array.text().split(', ');
 				return coordinates[3];
 			}
 
 			function getLeafletId (state) {
 				var
-					span = state.find('span'),
-					coordinates = span.text().split(', ')
+					array = state.find('.array'),
+					coordinates = array.text().split(', ');
 				return coordinates[2];
+			}
+
+			function getList (state) {
+				var
+				array = state.find('.array'),
+				coordinates = array.text().split(', ');
+				return coordinates[4];
 			}
 
 			function getText (li) {
 				return li.contents().get(0).nodeValue;
 			}
 
-			function addMarked ($this) {
+			function addMarker ($this) {
 				if (marker[getIndex($this)] === undefined || marker[getIndex($this)]._icon === null) {
 					var newMarker = new L.marker(getCoordinates($this));
 					marker[getIndex($this)] = newMarker;
@@ -111,21 +153,23 @@ var map = (function(){
 
 					marker[getIndex($this)].myFirstNumber = getLeafletId($this);
 					marker[getIndex($this)].mySecondNumber = getIndex($this);
-					console.log(marker[getIndex($this)].myFirstNumber);
-					console.log(marker[getIndex($this)].mySecondNumber);
+					marker[getIndex($this)].myThirdNumber = getList($this);
+					// console.log(marker[getIndex($this)].myFirstNumber);
+					// console.log(marker[getIndex($this)].mySecondNumber);
+					// console.log(marker[getIndex($this)].myThirddNumber);
 				}
 
 			}
 
 			var allStates = $('.all-states'),
-				state = allStates.find('li'),
+				state = allStates.find('.last-level'),
 				counter = true;
 
 				state.on('click', function(e) {
 					e.stopPropagation();
 					var $this = $(this);
 
-						addMarked($this);
+						addMarker($this);
 
 				});
 
@@ -134,10 +178,11 @@ var map = (function(){
 					states = $this.closest('.all-states').find('.last-level');
 
 					states.each(function() {
-						addMarked($(this));
+						addMarker($(this));
 					});
 
 				});
+
 
 		}
 	}
@@ -145,11 +190,13 @@ var map = (function(){
 
 var cityNav = (function(){
 
+	var states = $('.states');
+
 	return {
 
 		init: function() {
 
-			$('.fa').on('click', function(){
+			states.find('.fa-minus').on('click', function(){
 				var $this = $(this),
 				icon = $this;
 

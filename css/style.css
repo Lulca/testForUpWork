@@ -49,3 +49,14 @@ ul {
 #map .selected-states h3 {
   margin: 0;
 }
+
+#map .selected-states .second-list li {
+  position: relative;
+}
+
+#map .selected-states .second-list li i {
+  position: absolute;
+  left: -10px;
+  top: 7px;
+  z-index: 2000000;
+}

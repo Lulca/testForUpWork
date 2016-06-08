@@ -53,19 +53,6 @@ var map = (function(){
 					mouseover: highlightFeature,
 					mouseout: resetHighlight,
 					click: function() {
-						// console.log(marker[1].myFirstNumber);
-						// console.log(this._leaflet_id);
-						// console.log(this);
-						// console.log(marker[3]);
-						// console.log(marker[4]);
-						// console.log(marker[5]);
-						// console.log(marker[6]);
-						// console.log(marker[7]);
-						// console.log(marker[8]);
-						// console.log(marker[9]);
-						// console.log(marker[10]);
-				
-						// map.removeLayer(marker[4]);
 						var i = 0;
 						for (i = 1; i <= 10; i++) {
 							if ( marker[i] != undefined) {
@@ -76,13 +63,8 @@ var map = (function(){
 									break;
 								}
 							}
-						}
-
-						console.log(i);
-
-						
+						}		
 					}
-
 				});
 			}
 
@@ -90,8 +72,6 @@ var map = (function(){
 				style: style,
 				onEachFeature: onEachFeature
 			}).addTo(map);
-
-
 
 			function getCoordinates (state) {
 				var
@@ -119,52 +99,45 @@ var map = (function(){
 				return li.contents().get(0).nodeValue;
 			}
 
+			function addMarked ($this) {
+				if (marker[getIndex($this)] === undefined || marker[getIndex($this)]._icon === null) {
+					var newMarker = new L.marker(getCoordinates($this));
+					marker[getIndex($this)] = newMarker;
+
+					map.addLayer(marker[getIndex($this)]);
+					marker[getIndex($this)].bindPopup(getText($this));
+
+					statesId[getIndex($this)] = getLeafletId($this);
+
+					marker[getIndex($this)].myFirstNumber = getLeafletId($this);
+					marker[getIndex($this)].mySecondNumber = getIndex($this);
+					console.log(marker[getIndex($this)].myFirstNumber);
+					console.log(marker[getIndex($this)].mySecondNumber);
+				}
+
+			}
+
 			var allStates = $('.all-states'),
 				state = allStates.find('li'),
 				counter = true;
-
-				
 
 				state.on('click', function(e) {
 					e.stopPropagation();
 					var $this = $(this);
 
-						var newMarker = new L.marker(getCoordinates($this));
-						marker[getIndex($this)] = newMarker;
+						addMarked($this);
 
-						map.addLayer(marker[getIndex($this)]);
-						marker[getIndex($this)].bindPopup(getText($this));
-
-						statesId[getIndex($this)] = getLeafletId($this);
-
-						marker[getIndex($this)].myFirstNumber = getLeafletId($this);
-						marker[getIndex($this)].mySecondNumber = getIndex($this);
-						console.log(marker[getIndex($this)].myFirstNumber);
-						console.log(marker[getIndex($this)].mySecondNumber);
-
-						// if (counter) {
-						// 	counter = !counter;
-						// 	map.removeLayer(marker);
-						// 	return false
-						// }
-
-						// console.log(statesId);
-						// console.log(marker);
 				});
 
-				// $('.text-title').on('click', function(e) {
-				// 	var $this = $(this),
-				// 	states = $this.closest('.all-states').find('li');
+				$('.text-title').on('click', function(e) {
+					var $this = $(this),
+					states = $this.closest('.all-states').find('.last-level');
 
-				// 	states.each(function() {
+					states.each(function() {
+						addMarked($(this));
+					});
 
-				// 		marker = new L.marker(getCoordinates($(this)));
-
-				// 		map.addLayer(marker);
-				// 		marker.bindPopup(getText($(this)));
-				// 	});
-
-				// });
+				});
 
 		}
 	}
@@ -176,14 +149,14 @@ var cityNav = (function(){
 
 		init: function() {
 
-				$('.fa').on('click', function(){
-					var $this = $(this),
-						icon = $this;
-						
-					icon.toggleClass('fa-minus fa-plus')
-					.closest('.all-states').find('.ew-states')
-					.slideToggle();
-				});
+			$('.fa').on('click', function(){
+				var $this = $(this),
+				icon = $this;
+
+				icon.toggleClass('fa-minus fa-plus')
+				.closest('.all-states').find('.ew-states')
+				.slideToggle();
+			});
 		}
 	}
 })();

@@ -1,7 +1,7 @@
 var map = (function(){
 
-	var marker = new Array(),
-		statesId = new Array();
+	var marker = [],
+		statesId = [];
 
 
 	return {
@@ -49,84 +49,74 @@ var map = (function(){
 
 			var geojson;
 
-			var
-				secondList = $('.second-list'),
-				firstList = $('.first-list'),
-				firstListLi = $('.first-list').find('li'),
-				fa = '<i class="fa fa-times" aria-hidden="true">';
-				// console.log(firstListLi);
-			var control = true;
-
-			function onEachFeature(feature, layer) {
-				layer.on({
-					mouseout: resetHighlight,
-					mouseover: function(e) {
-						highlightFeature(e);
-						if (control) {
-							var i = 0;
-							for (i = 1; i <= 10; i++) {
-								if ( marker[i] != undefined) {
-									var a = Number(marker[i].myFirstNumber),
-									b = this._leaflet_id;
-									if (a === b) {
-									// map.removeLayer(marker[i]);
-									this.mySecondNumber = marker[i].mySecondNumber;
-									this.myThirdNumber = marker[i].myThirdNumber;
-									break;
-								}
-							}
-						}
-						secondList
-						.append(firstListLi.eq(this.mySecondNumber - 1)
-							.append(fa)
-							);		
-					}
-
-				}
-
-				});
-			}
-		
-			// $(".fa-times").on("click", function() {
-			// 	alert('heloo');
-			// });
-
-			$(document).on("mouseover", ".fa-times", function() {
-				var $this = $(this),
-					lastLevelLi = $this.closest('.last-level'),
-					firstList = $('.first-list'),
-					secondListLi = firstList.find('.last-level')
-					map.removeLayer(marker[getIndex(lastLevelLi)]);
-					
-					// firstList.append(secondListLi.eq(getIndex(lastLevelLi)));
-
-
-			});
-
 			geojson = L.geoJson(statesData, {
 				style: style,
 				onEachFeature: onEachFeature
 			}).addTo(map);
 
+			var
+			allStates = $('.all-states'),
+			state = allStates.find('.last-level'),
+			secondList = $('.second-list'),
+			secondListLi = secondList.find('.last-level'),
+			firstList = $('.first-list'),
+			firstListLi = firstList.find('.last-level');
+
+			function onEachFeature(feature, layer) {
+				layer.on({
+					mouseout: resetHighlight,
+					mouseover: function(e) {
+						highlightFeature(e);					
+						var i = 0;
+						for (i = 0; i < firstListLi.length; i++) {
+							if ( marker[i+1] !== undefined) {
+								var a = Number(marker[i+1].myFirstNumber),
+								b = Number(layer.feature.id);
+								if (a === b) {
+									secondListLi.eq(i).show();
+									console.log(this.mouseCounter);
+									if ( marker[i+1] !== undefined && this.mouseCounter === undefined) {
+										secondList.append(secondListLi.eq(i));
+										this.mouseCounter = 1;
+										console.log(this);
+									}
+									firstListLi.eq(i).hide();
+									break;
+								}
+							}	
+						}						
+					}
+				});
+			}
+			
+			var fa = secondList.find('.fa-times');
+			fa.on("click", function() {
+				var $this = $(this),
+				lastLevelLi = $this.closest('.last-level'),
+				index = lastLevelLi.data('index');
+				secondListLi.eq(index - 1).hide();
+				firstListLi.eq(index - 1).show();
+				map.removeLayer(marker[index]);
+				marker[index] = undefined;
+			});
+
+
 			function getCoordinates (state) {
 				var
-					array = state.find('.array'),
-					coordinates = array.text().split(', ');
+				array = state.find('.array'),
+				coordinates = array.text().split(', ');
 
 				return [coordinates[0], coordinates[1]];
 			}
 
 			function getIndex (state) {
-				var
-					array = state.find('.array'),
-					coordinates = array.text().split(', ');
-				return coordinates[3];
+				return Number(state.data('index'));
 			}
 
 			function getLeafletId (state) {
 				var
-					array = state.find('.array'),
-					coordinates = array.text().split(', ');
+				array = state.find('.array'),
+				coordinates = array.text().split(', ');
 				return coordinates[2];
 			}
 
@@ -154,52 +144,35 @@ var map = (function(){
 					marker[getIndex($this)].myFirstNumber = getLeafletId($this);
 					marker[getIndex($this)].mySecondNumber = getIndex($this);
 					marker[getIndex($this)].myThirdNumber = getList($this);
-					// console.log(marker[getIndex($this)].myFirstNumber);
-					// console.log(marker[getIndex($this)].mySecondNumber);
-					// console.log(marker[getIndex($this)].myThirddNumber);
 				}
-
 			}
 
-			var allStates = $('.all-states'),
-				state = allStates.find('.last-level'),
-				counter = true;
+			state.on('click', function(e) {
+				e.stopPropagation();
+				var $this = $(this);
+				addMarker($this);
+			});
 
-				state.on('click', function(e) {
-					e.stopPropagation();
-					var $this = $(this);
+			$('.text-title').on('click', function(e) {
+				var $this = $(this),
+				states = $this.closest('.all-states').find('.last-level');
 
-						addMarker($this);
-
+				states.each(function() {
+					addMarker($(this));
 				});
 
-				$('.text-title').on('click', function(e) {
-					var $this = $(this),
-					states = $this.closest('.all-states').find('.last-level');
-
-					states.each(function() {
-						addMarker($(this));
-					});
-
-				});
-
-
+			});
 		}
 	}
 })();
 
 var cityNav = (function(){
-
 	var states = $('.states');
-
 	return {
-
 		init: function() {
-
 			states.find('.fa-minus').on('click', function(){
 				var $this = $(this),
 				icon = $this;
-
 				icon.toggleClass('fa-minus fa-plus')
 				.closest('.all-states').find('.ew-states')
 				.slideToggle();
@@ -207,7 +180,6 @@ var cityNav = (function(){
 		}
 	}
 })();
-
 
 $(document).ready(function () {
 	 map.init();

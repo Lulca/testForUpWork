@@ -1,0 +1,81 @@
+[
+	{
+		"name": "California",
+		"dataIndex": 1,
+		"markerPosition": [37, -120],
+		"statesId": 6,
+		"location": "west"	
+	},
+
+	{
+        "name": "Texas",
+		"dataIndex": 2,
+		"markerPosition": [31, -98],
+		"statesId": 48,
+		"location": "west"
+	},
+
+	{
+        "name": "Washington",
+		"dataIndex": 3,
+		"markerPosition": [47, -120],
+		"statesId": 53,
+		"location": "west"
+	},
+
+	{
+        "name": "Arizona",
+		"dataIndex": 4,
+		"markerPosition": [34, -111],
+		"statesId": 4,
+		"location": "west"
+	},
+
+	{
+        "name": "Oregon",
+		"dataIndex": 5,
+		"markerPosition": [44, -120],
+		"statesId": 41,
+		"location": "west"
+	},
+
+    {
+        "name": "New York",
+		"dataIndex": 6,
+		"markerPosition": [43, -75],
+		"statesId": 36,
+		"location": "east"
+	},
+
+    {
+        "name": "Florida",
+		"dataIndex": 7,
+		"markerPosition": [29, -82],
+		"statesId": 12,
+		"location": "east"
+	},
+
+	{
+        "name": "Pennsylvania",
+		"dataIndex": 8,
+		"markerPosition": [41, -77],
+		"statesId": 42,
+		"location": "east"
+	},
+    
+    {
+        "name": "Ohio",
+		"dataIndex": 9,
+		"markerPosition": [40, -82],
+		"statesId": 39,
+		"location": "east"
+	},
+
+    {
+        "name": "Illinois",
+		"dataIndex": 10,
+		"markerPosition": [40, -89],
+		"statesId": 17,
+		"location": "east"
+	}
+]

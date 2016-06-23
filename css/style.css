@@ -52,7 +52,6 @@ ul {
 
 #map .selected-states .second-list li {
   position: relative;
-  display: none;
 }
 
 #map .selected-states .second-list li i {

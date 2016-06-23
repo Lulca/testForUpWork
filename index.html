@@ -1,36 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="mapApp">
 <head>
 	<meta charset="UTF-8">
 	<title>Test task</title>
+	<script src="https://code.angularjs.org/1.5.5/angular.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/style.css">
-	<!-- <link rel="stylesheet" type="text/css" href="lib/leaflet/leaflet.css">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.css" />
-	<script type="text/javascript" src="lib/leaflet/leaflet.js"></script> -->
 	<link data-require="leaflet@*" data-semver="1.0.0-rc.1" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0-rc.1/leaflet.css" />
     <link data-require="font-awesome@*" data-semver="4.5.0" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.css" />
 
 </head>
-<body>
+<body ng-controller="stateListController">
 	<h1>The largest states by population</h1>
 	<div id="map">
 		<ul class="nonselected-states states">
-			<li class="east-states all-states"><b class="title-states"><i class="fa fa-minus" aria-hidden="true"></i> <span class="text-title">East states</span></b>
+			<li ng-click="addMarkersToStates($event)" class="east-states all-states"><b class="title-states"><i class="fa fa-minus" aria-hidden="true"></i> <span class="text-title">West states</span></b>
 				<ul class="ew-states first-list">
-					<li class="last-level" data-index="1">California<span class="array">37, -120, 06</span></li>
-					<li class="last-level" data-index="2">Texas<span class="array">31, -98, 48</span></li>
-					<li class="last-level" data-index="3">Washington<span class="array">47, -120, 53</span></li>
-					<li class="last-level" data-index="4">Arizona<span class="array">34, -111, 04</span></li>
-					<li class="last-level" data-index="5">Oregon<span class="array">44, -120, 41</span></li>
+					<li ng-repeat="state in statesWest" ng-click="alertFunc($event)" class="last-level" data-index="{{state.dataIndex}}">{{state.name}}<span class="array">{{state.markerPosition[0]}}, {{state.markerPosition[1]}}, {{state.statesId}}</span></li>
 				</ul>
 			</li>
-			<li class="west-states all-states"><b class="title-states"><i class="fa fa-minus" aria-hidden="true"></i> <span class="text-title">West states</span></b>
+			<li ng-click="addMarkersToStates($event)" class="west-states all-states"><b class="title-states"><i class="fa fa-minus" aria-hidden="true"></i> <span class="text-title">East states</span></b>
 				<ul class="ew-states first-list">
-					<li class="last-level" data-index="6">New York<span class="array">43, -75, 36</span></li>
-					<li class="last-level" data-index="7">Florida<span class="array">29, -82, 12</span></li>
-					<li class="last-level" data-index="8">Pennsylvania<span class="array">41, -77, 42</span></li>
-					<li class="last-level" data-index="9">Ohio<span class="array">40, -82, 39</span></li>
-					<li class="last-level" data-index="10">Illinois<span class="array">40, -89, 17</span></li>
+					<li ng-repeat="state in statesEast" ng-click="alertFunc($event)" class="last-level" data-index="{{state.dataIndex}}">{{state.name}}<span class="array">{{state.markerPosition[0]}}, {{state.markerPosition[1]}}, {{state.statesId}}</span></li>
 				</ul>
 			</li>
 		</ul>
@@ -43,23 +33,12 @@
 					<span class="text-title">All states</span>
 				</b>
 				<ul class="ew-states second-list">
-					<li class="last-level" data-index="1"><i class="fa fa-times" aria-hidden="true"></i>California</li>
-					<li class="last-level" data-index="2"><i class="fa fa-times" aria-hidden="true"></i>Texas</li>
-					<li class="last-level" data-index="3"><i class="fa fa-times" aria-hidden="true"></i>Washington</li>
-					<li class="last-level" data-index="4"><i class="fa fa-times" aria-hidden="true"></i>Arizona</li>
-					<li class="last-level" data-index="5"><i class="fa fa-times" aria-hidden="true"></i>Oregon</li>
-					<li class="last-level" data-index="6"><i class="fa fa-times" aria-hidden="true"></i>New York</li>
-					<li class="last-level" data-index="7"><i class="fa fa-times" aria-hidden="true"></i>Florida</li>
-					<li class="last-level" data-index="8"><i class="fa fa-times" aria-hidden="true"></i>Pennsylvania</li>
-					<li class="last-level" data-index="9"><i class="fa fa-times" aria-hidden="true"></i>Ohio</li>
-					<li class="last-level" data-index="10"><i class="fa fa-times" aria-hidden="true"></i>Illinois</li>
+					<li ng-repeat="state in states" ng-click="alertFunc()" class="last-level" data-index="{{state.dataIndex}}" class="last-level" data-index="{{state.dataIndex}}"><i class="fa fa-times" aria-hidden="true"></i>{{state.name}}</li>
 				</ul>
 			</li>
 		</ul>
 	</div>
-<!-- 	<script type="text/javascript" src="lib/jquery/jquery-1.12.4.min.js"></script>
-	<script type="text/javascript" src="http://leafletjs.com/examples/us-states.js"></script> -->
-	<script data-require="jquery@*" data-semver="2.2.0" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+	<!-- <script data-require="jquery@*" data-semver="2.2.0" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script> -->
 	<script data-require="leaflet@*" data-semver="1.0.0-rc.1" src="//cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0-rc.1/leaflet.js"></script>
 		<script type="text/javascript" src="http://leafletjs.com/examples/us-states.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>

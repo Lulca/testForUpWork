@@ -1,8 +1,27 @@
 var mapApp = angular.module('mapApp', []);
 
-mapApp.controller('stateListController', function stateListController ($scope, $http) {
+mapApp.controller('mapController', function stateListController ($scope, $http) {
 
-			var map = L.map('map', {
+
+
+	$http.get('js/states.json').then(function(response){
+		$scope.states = response.data;
+		$scope.sortParam = 'dataIndex';
+		$scope.sortParam1 = 'counter';
+		$scope.statesEast = [];
+		$scope.statesWest = [];
+
+		var i;
+		for (i = 0; i < $scope.states.length; i++) {
+			if($scope.states[i].location === "west") {
+				$scope.statesWest.push($scope.states[i]);
+			} else {
+				$scope.statesEast.push($scope.states[i]);
+			}
+		}
+	});
+
+				var map = L.map('map', {
 				center: [42, -107],
 				zoom: 4,
 				maxZoom: 9,
@@ -27,7 +46,7 @@ mapApp.controller('stateListController', function stateListController ($scope, $
 			L.geoJson(statesData, {style: style}).addTo(map);
 
 			function highlightFeature(e) {
-				var layer = e.target;
+				layer = e.target;
 
 				layer.setStyle({
 					weight: 2,
@@ -56,57 +75,88 @@ mapApp.controller('stateListController', function stateListController ($scope, $
 				layer.on({
 					mouseout: resetHighlight,
 					mouseover: function(e) {
-						highlightFeature(e);				
+						highlightFeature(e);
+						var i = 0;
+						for (i = 0; i < $scope.states.length; i++) {
+							if ( marker[i+1] !== undefined) {
+								var a = Number(marker[i+1].myFirstNumber),
+								b = Number(layer.feature.id);
+								if (a === b) {
+									// secondListLi.eq(i).show();
+									// console.log($scope);
+
+									$scope.states[i].visibility = true;
+									console.log($scope.states[i].visibility);
+									// console.log(this.mouseCounter);
+									// console.log(this);
+									// if ( marker[i+1] !== undefined && this.mouseCounter === undefined) {
+									// 	// secondList.append(secondListLi.eq(i));
+									// 	this.mouseCounter = 1;
+									// 	console.log(this);
+									// }
+									// // firstListLi.eq(i).hide();
+									// break;
+								}
+							}	
+						}					
 					}
 				});
-			}
-
-
-
-	$http.get('js/states.json').then(function(response){
-		$scope.states = response.data;
-		$scope.statesEast = [];
-		$scope.statesWest = [];
-
-		var i;
-		for (i = 0; i < $scope.states.length; i++) {
-			if($scope.states[i].location === "west") {
-				$scope.statesWest.push($scope.states[i]);
-			} else {
-				$scope.statesEast.push($scope.states[i]);
-			}
-		}
-	});
+			}	
 
 	function addMarker (state) {
-		var specificMarker = marker[state.dataIndex];
-		if (specificMarker === undefined || specificMarker._icon === null) {
+		if (marker[state.dataIndex] === undefined || marker[state.dataIndex]._icon === null) {
 			var newMarker = new L.marker(state.markerPosition);
-			specificMarker = newMarker;
+			marker[state.dataIndex] = newMarker;
 
-			map.addLayer(specificMarker);
-			specificMarker.bindPopup(state.name);
+			map.addLayer(marker[state.dataIndex]);
+			marker[state.dataIndex].bindPopup(state.name);
 
 			// statesId[state.dataIndex] = getLeafletId($this);
 
-			// marker[state.dataIndex].myFirstNumber = getLeafletId($this);
+			marker[state.dataIndex].myFirstNumber = state.statesId;
 			// marker[state.dataIndex].mySecondNumber = state.dataIndex;
 			// marker[state.dataIndex].myThirdNumber = getList($this);
 		}
 	}
 
 
-	$scope.alertFunc = function (event) {
+	var counter = 0;
+
+	function toRightList (myState) {
+		myState.visibility = !myState.visibility;
+		counter++;
+		myState.counter = counter;
+		console.log(myState.visibility);
+	}
+	
+	$scope.addMarkerToMap = function(event) {
 		event.stopPropagation();
 		var state = this.state;
 		addMarker(state);
-		// console.log(this);
+		// to right list
+		// console.log($scope);
+		// toRightList(state);
+		// $scope.states[0].visibility = true;
+		// console.log("hello");
+
 	}
 
-	$scope.addMarkersToStates = function(event) {
-		console.log(angular.element(event.target).text());
+
+	$scope.toLeftList = function() {
+		this.state.visibility = !this.state.visibility;
+		map.removeLayer(marker[this.state.dataIndex]);
+		marker[this.state.dataIndex] = undefined;
+
+	}
+
+	$scope.addMarkersToStates = function(states) {
+		for(var i = 0; i < states.length; i++) {
+			addMarker(states[i]);
+		}
 	}
 });
+	
+
 
 
 
@@ -176,32 +226,32 @@ mapApp.controller('stateListController', function stateListController ($scope, $
 // 			firstList = $('.first-list'),
 // 			firstListLi = firstList.find('.last-level');
 
-// 			function onEachFeature(feature, layer) {
-// 				layer.on({
-// 					mouseout: resetHighlight,
-// 					mouseover: function(e) {
-// 						highlightFeature(e);					
-// 						var i = 0;
-// 						for (i = 0; i < firstListLi.length; i++) {
-// 							if ( marker[i+1] !== undefined) {
-// 								var a = Number(marker[i+1].myFirstNumber),
-// 								b = Number(layer.feature.id);
-// 								if (a === b) {
-// 									secondListLi.eq(i).show();
-// 									console.log(this.mouseCounter);
-// 									if ( marker[i+1] !== undefined && this.mouseCounter === undefined) {
-// 										secondList.append(secondListLi.eq(i));
-// 										this.mouseCounter = 1;
-// 										console.log(this);
-// 									}
-// 									firstListLi.eq(i).hide();
-// 									break;
-// 								}
-// 							}	
-// 						}						
-// 					}
-// 				});
-// 			}
+			// function onEachFeature(feature, layer) {
+			// 	layer.on({
+			// 		mouseout: resetHighlight,
+			// 		mouseover: function(e) {
+			// 			highlightFeature(e);					
+			// 			var i = 0;
+			// 			for (i = 0; i < firstListLi.length; i++) {
+			// 				if ( marker[i+1] !== undefined) {
+			// 					var a = Number(marker[i+1].myFirstNumber),
+			// 					b = Number(layer.feature.id);
+			// 					if (a === b) {
+			// 						secondListLi.eq(i).show();
+			// 						console.log(this.mouseCounter);
+			// 						if ( marker[i+1] !== undefined && this.mouseCounter === undefined) {
+			// 							secondList.append(secondListLi.eq(i));
+			// 							this.mouseCounter = 1;
+			// 							console.log(this);
+			// 						}
+			// 						firstListLi.eq(i).hide();
+			// 						break;
+			// 					}
+			// 				}	
+			// 			}						
+			// 		}
+			// 	});
+			// }
 			
 // 			var fa = secondList.find('.fa-times');
 // 			fa.on("click", function() {

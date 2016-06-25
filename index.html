@@ -9,22 +9,23 @@
     <link data-require="font-awesome@*" data-semver="4.5.0" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.css" />
 
 </head>
-<body ng-controller="stateListController">
+<body>
 	<h1>The largest states by population</h1>
-	<div id="map">
+	<div ng-controller="mapController" id="map">
+
 		<ul class="nonselected-states states">
-			<li ng-click="addMarkersToStates($event)" class="east-states all-states"><b class="title-states"><i class="fa fa-minus" aria-hidden="true"></i> <span class="text-title">West states</span></b>
+			<li ng-click="addMarkersToStates(statesWest)" class="east-states all-states"><b class="title-states"><i class="fa fa-minus" aria-hidden="true"></i> <span class="text-title">West states</span></b>
 				<ul class="ew-states first-list">
-					<li ng-repeat="state in statesWest" ng-click="alertFunc($event)" class="last-level" data-index="{{state.dataIndex}}">{{state.name}}<span class="array">{{state.markerPosition[0]}}, {{state.markerPosition[1]}}, {{state.statesId}}</span></li>
+					<li ng-repeat="state in statesWest | orderBy:sortParam" ng-if="!state.visibility" ng-click="addMarkerToMap($event)" class="last-level" data-index="{{state.dataIndex}}">{{state.name}}<span class="array">{{state.markerPosition[0]}}, {{state.markerPosition[1]}}, {{state.statesId}}</span></li>
 				</ul>
 			</li>
-			<li ng-click="addMarkersToStates($event)" class="west-states all-states"><b class="title-states"><i class="fa fa-minus" aria-hidden="true"></i> <span class="text-title">East states</span></b>
+			<li ng-click="addMarkersToStates(statesEast)" class="west-states all-states"><b class="title-states"><i class="fa fa-minus" aria-hidden="true"></i> <span class="text-title">East states</span></b>
 				<ul class="ew-states first-list">
-					<li ng-repeat="state in statesEast" ng-click="alertFunc($event)" class="last-level" data-index="{{state.dataIndex}}">{{state.name}}<span class="array">{{state.markerPosition[0]}}, {{state.markerPosition[1]}}, {{state.statesId}}</span></li>
+					<li ng-repeat="state in statesEast | orderBy:sortParam" ng-if="!state.visibility" ng-click="addMarkerToMap($event)" class="last-level" data-index="{{state.dataIndex}}">{{state.name}}<span class="array">{{state.markerPosition[0]}}, {{state.markerPosition[1]}}, {{state.statesId}}</span></li>
 				</ul>
 			</li>
 		</ul>
-
+		
 		<ul class="selected-states states">
 			<h3>Selected states</h3>
 			<li class="east-states all-states">
@@ -33,14 +34,13 @@
 					<span class="text-title">All states</span>
 				</b>
 				<ul class="ew-states second-list">
-					<li ng-repeat="state in states" ng-click="alertFunc()" class="last-level" data-index="{{state.dataIndex}}" class="last-level" data-index="{{state.dataIndex}}"><i class="fa fa-times" aria-hidden="true"></i>{{state.name}}</li>
+					<li ng-repeat="state in states | orderBy:sortParam1" ng-if="state.visibility" class="last-level" data-index="{{state.dataIndex}}"><i ng-click="toLeftList()" class="fa fa-times" aria-hidden="true"></i>{{state.name}}</li>
 				</ul>
 			</li>
 		</ul>
 	</div>
-	<!-- <script data-require="jquery@*" data-semver="2.2.0" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script> -->
 	<script data-require="leaflet@*" data-semver="1.0.0-rc.1" src="//cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0-rc.1/leaflet.js"></script>
-		<script type="text/javascript" src="http://leafletjs.com/examples/us-states.js"></script>
+	<script type="text/javascript" src="js/statesData.json"></script>
 	<script type="text/javascript" src="js/main.js"></script>
 
 </body>

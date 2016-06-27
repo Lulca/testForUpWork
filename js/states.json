@@ -5,7 +5,8 @@
 		"markerPosition": [37, -120],
 		"statesId": 6,
 		"location": "west",
-		"visibility" : false
+		"visibility" : false,
+		"counter": 0
 	},
 
 	{
@@ -14,7 +15,8 @@
 		"markerPosition": [31, -98],
 		"statesId": 48,
 		"location": "west",
-		"visibility" : false
+		"visibility" : false,
+		"counter": 0
 	},
 
 	{
@@ -23,7 +25,8 @@
 		"markerPosition": [47, -120],
 		"statesId": 53,
 		"location": "west",
-		"visibility" : false
+		"visibility" : false,
+		"counter": 0
 	},
 
 	{
@@ -32,7 +35,8 @@
 		"markerPosition": [34, -111],
 		"statesId": 4,
 		"location": "west",
-		"visibility" : false
+		"visibility" : false,
+		"counter": 0
 	},
 
 	{
@@ -41,7 +45,8 @@
 		"markerPosition": [44, -120],
 		"statesId": 41,
 		"location": "west",
-		"visibility" : false
+		"visibility" : false,
+		"counter": 0
 	},
 
     {
@@ -50,8 +55,10 @@
 		"markerPosition": [43, -75],
 		"statesId": 36,
 		"location": "east",
-		"visibility": false
+		"visibility": false,
+		"counter": 0
 	},
+
 
     {
         "name": "Florida",
@@ -59,8 +66,10 @@
 		"markerPosition": [29, -82],
 		"statesId": 12,
 		"location": "east",
-		"visibility": false
+		"visibility": false,
+		"counter": 0
 	},
+
 
 	{
         "name": "Pennsylvania",
@@ -68,8 +77,10 @@
 		"markerPosition": [41, -77],
 		"statesId": 42,
 		"location": "east",
-		"visibility": false
+		"visibility": false,
+		"counter": 0
 	},
+
     
     {
         "name": "Ohio",
@@ -77,8 +88,10 @@
 		"markerPosition": [40, -82],
 		"statesId": 39,
 		"location": "east",
-		"visibility": false
+		"visibility": false,
+		"counter": 0
 	},
+
 
     {
         "name": "Illinois",
@@ -86,6 +99,8 @@
 		"markerPosition": [40, -89],
 		"statesId": 17,
 		"location": "east",
-		"visibility": false
+		"visibility": false,
+		"counter": 0
 	}
+
 ]

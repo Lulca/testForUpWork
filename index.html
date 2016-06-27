@@ -9,19 +9,19 @@
     <link data-require="font-awesome@*" data-semver="4.5.0" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.css" />
 
 </head>
-<body>
+<body ng-controller="mapController">
 	<h1>The largest states by population</h1>
-	<div ng-controller="mapController" id="map">
+	<div id="map">
 
 		<ul class="nonselected-states states">
 			<li ng-click="addMarkersToStates(statesWest)" class="east-states all-states"><b class="title-states"><i class="fa fa-minus" aria-hidden="true"></i> <span class="text-title">West states</span></b>
 				<ul class="ew-states first-list">
-					<li ng-repeat="state in statesWest | orderBy:sortParam" ng-if="!state.visibility" ng-click="addMarkerToMap($event)" class="last-level" data-index="{{state.dataIndex}}">{{state.name}}<span class="array">{{state.markerPosition[0]}}, {{state.markerPosition[1]}}, {{state.statesId}}</span></li>
+					<li ng-repeat="state in statesWest | orderBy:sortParam" ng-if="!state.visibility" ng-click="addMarkerToMap($event)" class="last-level" data-index="{{state.dataIndex}}">{{state.name}}</li>
 				</ul>
 			</li>
 			<li ng-click="addMarkersToStates(statesEast)" class="west-states all-states"><b class="title-states"><i class="fa fa-minus" aria-hidden="true"></i> <span class="text-title">East states</span></b>
 				<ul class="ew-states first-list">
-					<li ng-repeat="state in statesEast | orderBy:sortParam" ng-if="!state.visibility" ng-click="addMarkerToMap($event)" class="last-level" data-index="{{state.dataIndex}}">{{state.name}}<span class="array">{{state.markerPosition[0]}}, {{state.markerPosition[1]}}, {{state.statesId}}</span></li>
+					<li ng-repeat="state in statesEast | orderBy:sortParam" ng-if="!state.visibility" ng-click="addMarkerToMap($event)" class="last-level" data-index="{{state.dataIndex}}">{{state.name}}</li>
 				</ul>
 			</li>
 		</ul>
